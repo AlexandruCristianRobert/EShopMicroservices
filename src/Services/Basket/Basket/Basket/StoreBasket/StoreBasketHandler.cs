@@ -11,13 +11,24 @@
             RuleFor(x => x.Cart.UserName).NotEmpty().WithMessage("UserName is required");
         }
     }
-    internal class StoreBasketCommandHandler(IBasketRepository repository) : ICommandHandler<StoreBasketCommand, StoreBasketResult>
+    internal class StoreBasketCommandHandler(IBasketRepository repository, Discount.Grpc.Discount.DiscountClient discountProto) : ICommandHandler<StoreBasketCommand, StoreBasketResult>
     {
         public async Task<StoreBasketResult> Handle(StoreBasketCommand command, CancellationToken cancellationToken)
         {
+            await DeductDiscount(command.Cart, cancellationToken);
+
             await repository.StoreBasket(command.Cart, cancellationToken);
 
             return new StoreBasketResult(command.Cart.UserName);
+        }
+
+        private async Task DeductDiscount(ShoppingCart cart, CancellationToken cancellationToken)
+        {
+            foreach( var item in cart.Items)
+            {
+                var coupon = await discountProto.GetDiscountAsync(new Discount.Grpc.GetDiscountRequest { ProductName = item.ProductName }, cancellationToken: cancellationToken);
+                item.Price -= coupon.Amount;    
+            }
         }
     }
 }
