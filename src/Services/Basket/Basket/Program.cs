@@ -1,3 +1,5 @@
+using System.Reflection;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var assembly = typeof(Program).Assembly;
@@ -41,6 +43,9 @@ builder.Services.AddGrpcClient<Discount.Grpc.Discount.DiscountClient>(options =>
 
         return handler;
     });
+
+//Async Comunication Services
+builder.Services.AddMessageBroker(builder.Configuration, Assembly.GetExecutingAssembly());
 
 //Cross-Cutting Services
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();

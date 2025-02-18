@@ -1,4 +1,4 @@
-﻿using Ordering.Infrastructure.Data.Interceptors;
+﻿
 
 namespace Ordering.Infrastructure
 {

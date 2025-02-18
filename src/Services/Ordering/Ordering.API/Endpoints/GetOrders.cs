@@ -15,7 +15,7 @@
                 return Results.Ok(response);
             })
                 .WithName("GetOrder")
-                .Produces<UpdateOrderResponse>(StatusCodes.Status200OK)
+                .Produces<GetOrdersResponse>(StatusCodes.Status200OK)
                 .ProducesProblem(StatusCodes.Status400BadRequest)
                 .ProducesProblem(StatusCodes.Status404NotFound)
                 .WithSummary("Get Orders")

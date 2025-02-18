@@ -15,12 +15,12 @@
 
         private static async Task SeedAsync(ApplicationDbContext context)
         {
-            await SeedCustomerAsync(context);
-            await SeedProductAsync(context);
-            await SeedOrderWithItemsAsync(context);
+            await SeedCustomersAsync(context);
+            await SeedProductsAsync(context);
+            await SeedOrdersWithItemsAsync(context);
         }
 
-        private static async Task SeedCustomerAsync(ApplicationDbContext context)
+        private static async Task SeedCustomersAsync(ApplicationDbContext context)
         {
             if (!await context.Customers.AnyAsync())
             {
@@ -28,7 +28,7 @@
                 await context.SaveChangesAsync();
             }
         }
-        private static async Task SeedProductAsync(ApplicationDbContext context)
+        private static async Task SeedProductsAsync(ApplicationDbContext context)
         {
             if (!await context.Products.AnyAsync())
             {
@@ -37,7 +37,7 @@
             }
         }
 
-        private static async Task SeedOrderWithItemsAsync(ApplicationDbContext context)
+        private static async Task SeedOrdersWithItemsAsync(ApplicationDbContext context)
         {
             if (!await context.Orders.AnyAsync())
             {
